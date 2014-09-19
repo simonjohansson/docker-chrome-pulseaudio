@@ -5,14 +5,16 @@ MAINTAINER Simon Johansson
 # Make sure the repository information is up to date
 RUN apt-get update
 
-# Install Chrome
 RUN apt-get install -y ca-certificates wget
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -P /tmp/
-RUN dpkg -i /tmp/google-chrome-stable_current_amd64.deb || true
-RUN apt-get install -fy
+# Add the google repos for chrome and talkplugin
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
+RUN echo "deb http://dl.google.com/linux/talkplugin/deb/ stable main" >> /etc/apt/sources.list.d/google.list
 
 # Install OpenSSH
 RUN apt-get install -y openssh-server
+# Install those sukkas.
+RUN apt-get update && apt-get install -y google-chrome-stable google-talkplugin
 
 # Create OpenSSH privilege separation directory
 RUN mkdir /var/run/sshd
