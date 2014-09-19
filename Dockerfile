@@ -25,9 +25,8 @@ RUN apt-get install -y pulseaudio
 # Add the Chrome user that will run the browser
 RUN adduser --disabled-password --gecos "Chrome User" --uid 5001 chrome
 
-# Add SSH public key for the chrome user
 RUN mkdir /home/chrome/.ssh
-ADD id_rsa.pub /home/chrome/.ssh/authorized_keys
+RUN echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDq5Fhs8EKcobOWnA+6SMoeGBcTpPMaa9jWfaxypbvKmREmZEzVcJEhQFxtAzn4hygve6O4X1qtUJtK3irmLKtwh9wakKbjq1gaGxR52/UgA3ZiHvXTaVZTM7pvPpJ/5a71MNw+QFIeKKifta000Tq3SwZS6WyciFpXm8tI+qGEyHkFLmvaKG+sBz7gvVTZl8T29sJ3M/poHqGGRjQW5A4nKWTHUzSCC9g+myTxWUbNGKspi+kkUGwnYSjYT6vxcQTfFbvDRMEgpvFuSj04GsWf05NLZMVC5naflB/dk6ln/Ibir+wnxYwmCGSoQyGYLLsoHE8DdaIig4cntwybLYxz simon@simonjohansson.com" > /home/chrome/.ssh/authorized_keys
 RUN chown -R chrome:chrome /home/chrome/.ssh
 
 # Set up the launch wrapper
