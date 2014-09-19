@@ -1,8 +1,6 @@
 FROM ubuntu:latest
 MAINTAINER Simon Johansson
 
-# Tell debconf to run in non-interactive mode
-ENV DEBIAN_FRONTEND noninteractive
 
 # Make sure the repository information is up to date
 RUN apt-get update
