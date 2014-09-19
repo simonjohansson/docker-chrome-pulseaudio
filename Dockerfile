@@ -34,8 +34,14 @@ RUN echo 'export PULSE_SERVER="tcp:localhost:64713"' >> /usr/local/bin/chrome-pu
 RUN echo 'google-chrome --no-sandbox' >> /usr/local/bin/chrome-pulseaudio-forward
 RUN chmod 755 /usr/local/bin/chrome-pulseaudio-forward
 
-# Start SSH so we are ready to make a tunnel
-ENTRYPOINT ["/usr/sbin/sshd",  "-D"]
+# Lets make the chrome user responsible for running the sshd daemon
+WORKDIR /home/chrome
+RUN cp /etc/ssh/sshd_config .
+RUN sed -i 's/Port 22/Port 2222/g' sshd_config
+RUN echo 'UsePrivilegeSeparation no' >> sshd_config
+RUN chown chrome:chrome sshd_config
+RUN chown chrome:chrome /etc/ssh/ssh_* # Naughty.
 
-# Expose the SSH port
-EXPOSE 22
+USER chrome
+ENTRYPOINT ["/usr/sbin/sshd", "-f", "/home/chrome/sshd_config", "-D"]
+EXPOSE 2222
