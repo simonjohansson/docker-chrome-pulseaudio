@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-MAINTAINER Joshua Lund
+MAINTAINER Simon Johansson
 
 # Tell debconf to run in non-interactive mode
 ENV DEBIAN_FRONTEND noninteractive
